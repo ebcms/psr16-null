@@ -5,7 +5,7 @@ namespace Ebcms\SimpleCache;
 use Ebcms\SimpleCache\Exception\InvalidArgumentException;
 use Psr\SimpleCache\CacheInterface;
 
-class NullAdapter implements CacheInterface
+class NullSimpleCache implements CacheInterface
 {
     public function get(string $key, $default = null)
     {
