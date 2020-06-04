@@ -7,19 +7,19 @@ use Psr\SimpleCache\CacheInterface;
 
 class NullSimpleCache implements CacheInterface
 {
-    public function get(string $key, $default = null)
+    public function get($key, $default = null)
     {
         $this->validateKey($key);
         return $default;
     }
 
-    public function set(string $key, $value, $ttl = null): bool
+    public function set($key, $value, $ttl = null): bool
     {
         $this->validateKey($key);
         return true;
     }
 
-    public function delete(string $key): bool
+    public function delete($key): bool
     {
         $this->validateKey($key);
         return true;
@@ -30,14 +30,14 @@ class NullSimpleCache implements CacheInterface
         return true;
     }
 
-    public function getMultiple(iterable $keys, $default = null): iterable
+    public function getMultiple($keys, $default = null): iterable
     {
         foreach ($keys as $key) {
             yield $key => $this->get($key, $default);
         }
     }
 
-    public function setMultiple(iterable $values, $ttl = null): bool
+    public function setMultiple($values, $ttl = null): bool
     {
         foreach ($values as $key => $value) {
             if (!$this->set($key, $value, $ttl)) {
@@ -47,7 +47,7 @@ class NullSimpleCache implements CacheInterface
         return true;
     }
 
-    public function deleteMultiple(iterable $keys): bool
+    public function deleteMultiple($keys): bool
     {
         foreach ($keys as $key) {
             if (!$this->delete($key)) {
@@ -57,7 +57,7 @@ class NullSimpleCache implements CacheInterface
         return true;
     }
 
-    public function has(iterable $key): bool
+    public function has($key): bool
     {
         $this->validateKey($key);
         return false;
