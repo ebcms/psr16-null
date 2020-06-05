@@ -70,20 +70,15 @@ class NullSimpleCache implements CacheInterface
      */
     protected function validateKey($key)
     {
-        if (!is_string($key)) {
-            throw new InvalidArgumentException(sprintf(
-                'Cache key must be string, "%s" given',
-                gettype($key)
-            ));
+        if (!is_string($key) || $key === '') {
+            throw new InvalidArgumentException('Key should be a non empty string');
         }
-        if (!isset($key[0])) {
-            throw new InvalidArgumentException('Cache key cannot be an empty string');
+
+        $unsupportedMatched = preg_match('#[' . preg_quote('{}()/\@:') . ']#', $key);
+        if ($unsupportedMatched > 0) {
+            throw new InvalidArgumentException('Can\'t validate the specified key');
         }
-        if (preg_match('|[\{\}\(\)/\\\@\:]|', $key)) {
-            throw new InvalidArgumentException(sprintf(
-                'Invalid key: "%s". The key contains one or more characters reserved for future extension: {}()/\@:',
-                $key
-            ));
-        }
+
+        return true;
     }
 }

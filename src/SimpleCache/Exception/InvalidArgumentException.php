@@ -2,8 +2,8 @@
 
 namespace Ebcms\SimpleCache\Exception;
 
-use \Psr\SimpleCache\InvalidArgumentException as PsrInvalidArgumentException;
+use \Psr\SimpleCache\InvalidArgumentException as PsrCacheInvalidArgumentException;
 
-class InvalidArgumentException extends CacheException implements PsrInvalidArgumentException
+class InvalidArgumentException extends \InvalidArgumentException implements PsrCacheInvalidArgumentException
 {
 }

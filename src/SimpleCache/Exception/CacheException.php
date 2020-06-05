@@ -2,8 +2,8 @@
 
 namespace Ebcms\SimpleCache\Exception;
 
-use \Psr\SimpleCache\CacheException as PsrCacheException;
-use \Exception;
+use Exception;
+use Psr\SimpleCache\CacheException as PsrCacheException;
 
 class CacheException extends Exception implements PsrCacheException
 {
