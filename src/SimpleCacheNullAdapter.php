@@ -1,11 +1,10 @@
-<?php
+<?php declare (strict_types = 1);
 
-namespace Ebcms\SimpleCache;
+namespace Ebcms;
 
-use Ebcms\SimpleCache\Exception\InvalidArgumentException;
 use Psr\SimpleCache\CacheInterface;
 
-class NullSimpleCache implements CacheInterface
+class SimpleCacheNullAdapter implements CacheInterface
 {
     public function get($key, $default = null)
     {
@@ -66,17 +65,17 @@ class NullSimpleCache implements CacheInterface
     /**
      * @param string $key
      *
-     * @throws InvalidArgumentException
+     * @throws SimpleCacheInvalidArgumentException
      */
     protected function validateKey($key)
     {
         if (!is_string($key) || $key === '') {
-            throw new InvalidArgumentException('Key should be a non empty string');
+            throw new SimpleCacheInvalidArgumentException('Key should be a non empty string');
         }
 
         $unsupportedMatched = preg_match('#[' . preg_quote('{}()/\@:') . ']#', $key);
         if ($unsupportedMatched > 0) {
-            throw new InvalidArgumentException('Can\'t validate the specified key');
+            throw new SimpleCacheInvalidArgumentException('Can\'t validate the specified key');
         }
 
         return true;

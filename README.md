@@ -11,5 +11,5 @@ composer require ebcms/psr16-null
 ## Usage
 
 ``` php
-$simple_cache = new \Ebcms\SimpleCache\NullSimpleCache;
+$simple_cache = new \Ebcms\SimpleCacheNullAdapter;
 ```
