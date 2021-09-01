@@ -1,4 +1,6 @@
-<?php declare (strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Ebcms;
 
@@ -6,26 +8,37 @@ use Psr\SimpleCache\CacheInterface;
 
 class SimpleCacheNullAdapter implements CacheInterface
 {
+    protected $data = [];
+
     public function get($key, $default = null)
     {
         $this->validateKey($key);
+        if (isset($this->data[$key]) && (!$this->data[$key]['expire_at'] || $this->data[$key]['expire_at'] >= time())) {
+            return $this->data[$key]['value'];
+        }
         return $default;
     }
 
     public function set($key, $value, $ttl = null): bool
     {
         $this->validateKey($key);
+        $this->data[$key] = [
+            'value' => $value,
+            'expire_at' => is_null($ttl) ? null : time() + $ttl,
+        ];
         return true;
     }
 
     public function delete($key): bool
     {
         $this->validateKey($key);
+        unset($this->data[$key]);
         return true;
     }
 
     public function clear(): bool
     {
+        $this->data = [];
         return true;
     }
 
@@ -59,6 +72,9 @@ class SimpleCacheNullAdapter implements CacheInterface
     public function has($key): bool
     {
         $this->validateKey($key);
+        if (isset($this->data[$key]) && (!$this->data[$key]['expire_at'] || $this->data[$key]['expire_at'] >= time())) {
+            return true;
+        }
         return false;
     }
 
